@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import search from '../assets/search.jpg';
 import explore from '../assets/explore.jpg';
 import posts from '../assets/posts.jpg';
