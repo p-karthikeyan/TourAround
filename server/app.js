@@ -11,7 +11,9 @@ const mongoose=require('mongoose')
 const uri="mongodb+srv://karthik-2002:karthik2002@cluster.8oxgmsm.mongodb.net/TourAround?retryWrites=true&w=majority"
 
 const bcrypt=require('bcrypt')
+
 const User=require('./models/usermodel')
+const Post=require('./models/postmodel')
 
 const secretkey="shrh3oq9itkarhoquioafnch4p@(H8y)IJ!hdweot3605n"
 const generatetoken=(userid)=>{
@@ -24,6 +26,16 @@ mongoose.connect(uri,{
 }).then(result=>{
     app.listen(5000,()=>console.log("listening to the port 5000..."))
 }).catch(err=>console.log(err))
+
+app.post('/addpost',(req,res)=>{
+    const {userid,location,description,image}=req.body
+    User.findOne({_id:userid}).then(user=>{
+        const post=new Post({user:user.username,location,description,image})
+        post.save().then(post=>{
+            res.send(post)
+        }).catch(err=>console.log(err))
+    }).catch(err=>console.log(err))
+})
 
 app.post('/login',(req,res)=>{
     const {email,password}=req.body

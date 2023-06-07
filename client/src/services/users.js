@@ -8,3 +8,6 @@ export const signupuser=(data)=>{
 export const loginuser=(data)=>{
     return axios.post(apiurl+'login',data)
 }
+export const addpost=(data)=>{
+    return axios.post(apiurl+'addpost',data)
+}
