@@ -16,7 +16,7 @@ const Signup = ({setmodel,setbox}) => {
     const data={username,email,password}
     console.log(data)
     signupuser(data)
-    .then(rslt=>console.log(rslt))
+    .then(rslt=>setbox('login'))
     .catch(err=>console.log(err))
   }
   return (

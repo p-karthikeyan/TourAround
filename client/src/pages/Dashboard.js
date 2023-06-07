@@ -1,18 +1,34 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Footer from '../components/Footer'
 import bg from '../assets/dashboard.webp'
 import Addpost from '../components/addpost'
 import Post from '../components/post'
+import {decodeToken} from 'react-jwt'
+import {useNavigate} from 'react-router-dom'
 
 const Dashboard = () => {
+  const navigate=useNavigate()
+  useEffect(()=>{
+    const token=localStorage.getItem('authToken')
+    const decodedtoken=decodeToken(token)
+    if(decodedtoken){
+      console.log("accessible..")
+    }
+    else{
+      navigate('/')
+    }
+  },[])
   return (
     <div style={{background:'rgb(70,40,40)'}}>
         <img style={{width:'100%',height:'100vh'}} src={bg}/>
         <div className='dash-nav'>
           <h1 style={{marginRight:'68vw'}}>TourAround</h1>
           <div>
-            <button className='transp-btn'>Home</button>
-            <button className='transp-btn'>Logout</button>
+            <button className='transp-btn' onClick={()=>navigate('/')}>Home</button>
+            <button className='transp-btn' onClick={()=>{
+              localStorage.removeItem('authToken')
+              navigate('/')
+              }}>Logout</button>
           </div>
         </div>
         <div className='search-cont'>

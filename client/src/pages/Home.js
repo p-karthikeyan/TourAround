@@ -17,7 +17,7 @@ function Home() {
     <div className='wrap'>
       <div style={{opacity:disabled}}>
       <Nav setmodel={setAuthmodel} setbox={setauthbox}/>
-      <Intro/>
+      <Intro setmodel={setAuthmodel}/>
       <Demo/>
       <About/>
       <Footer/>

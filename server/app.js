@@ -1,5 +1,6 @@
 const express=require('express')
 const cors=require('cors')
+const jwt=require('jsonwebtoken')
 const app=express()
 
 app.use(express.urlencoded({extended:true}))
@@ -11,6 +12,11 @@ const uri="mongodb+srv://karthik-2002:karthik2002@cluster.8oxgmsm.mongodb.net/To
 
 const bcrypt=require('bcrypt')
 const User=require('./models/usermodel')
+
+const secretkey="shrh3oq9itkarhoquioafnch4p@(H8y)IJ!hdweot3605n"
+const generatetoken=(userid)=>{
+    return jwt.sign({_id:userid},secretkey)
+}
 
 mongoose.connect(uri,{
     useNewUrlParser: true,
@@ -26,7 +32,9 @@ app.post('/login',(req,res)=>{
             bcrypt.compare(password,result.password)
             .then(match=>{
                 if(match){
-                res.send(result)}
+                    const token=generatetoken(result._id)
+                    res.send({name:result.username,authtoken:token})
+                    }
                 else{
                     res.send('password incorrect!')
                 }

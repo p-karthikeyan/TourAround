@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import logo from '../assets/authmodel.png'
 import {loginuser} from '../services/users'
+import {useNavigate} from 'react-router-dom'
 
 const Login = ({setmodel,setbox}) => {
     const [email,setemail]=useState('')
     const [password,setpassword]=useState('')
+
+    const navigate=useNavigate()
 
     const handleclose=()=>{
         setmodel(false)
@@ -13,7 +16,10 @@ const Login = ({setmodel,setbox}) => {
       e.preventDefault()
       const data={email,password}
       loginuser(data)
-      .then(rslt=>console.log(rslt))
+      .then(rslt=>{
+        localStorage.setItem('authToken',rslt.data.authtoken)
+        navigate('/dashboard')
+      })
       .catch(err=>console.log(err))
     }
   return (
