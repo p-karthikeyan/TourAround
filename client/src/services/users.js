@@ -11,3 +11,6 @@ export const loginuser=(data)=>{
 export const addpost=(data)=>{
     return axios.post(apiurl+'addpost',data)
 }
+export const getpost=(location,token)=>{
+    return axios.post(apiurl+'locations',{location,token})
+}

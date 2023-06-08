@@ -16,8 +16,12 @@ const User=require('./models/usermodel')
 const Post=require('./models/postmodel')
 
 const secretkey="shrh3oq9itkarhoquioafnch4p@(H8y)IJ!hdweot3605n"
+
 const generatetoken=(userid)=>{
     return jwt.sign({_id:userid},secretkey)
+}
+const authenticate=(token)=>{
+    return jwt.verify(token,secretkey)
 }
 
 mongoose.connect(uri,{
@@ -27,14 +31,29 @@ mongoose.connect(uri,{
     app.listen(5000,()=>console.log("listening to the port 5000..."))
 }).catch(err=>console.log(err))
 
-app.post('/addpost',(req,res)=>{
-    const {userid,location,description,image}=req.body
-    User.findOne({_id:userid}).then(user=>{
-        const post=new Post({user:user.username,location,description,image})
-        post.save().then(post=>{
-            res.send(post)
+app.post('/locations',(req,res)=>{
+    const {token,location}=req.body
+    const decoded=authenticate(token)
+    if(decoded){
+        Post.find({location:location}).then(posts=>{
+            res.send(posts)
         }).catch(err=>console.log(err))
-    }).catch(err=>console.log(err))
+    }
+})
+
+app.post('/addpost',(req,res)=>{
+    const {authtoken,location,description,image}=req.body
+    const decoded=authenticate(authtoken)
+    if(decoded){
+        User.findOne({_id:decoded._id}).then(user=>{
+            const post=new Post({user:user.username,location,description,image})
+            post.save().then(post=>{
+                res.send(post)
+            }).catch(err=>console.log(err))
+        }).catch(err=>console.log(err))
+    }else{
+        console.log("authentication failed!!..")
+    }
 })
 
 app.post('/login',(req,res)=>{
