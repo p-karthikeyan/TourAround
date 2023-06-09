@@ -14,3 +14,6 @@ export const addpost=(data)=>{
 export const getpost=(location,token)=>{
     return axios.post(apiurl+'locations',{location,token})
 }
+export const like=(data)=>{
+    return axios.put(apiurl+'like',data)
+}

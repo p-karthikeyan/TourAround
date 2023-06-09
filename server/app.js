@@ -14,6 +14,7 @@ const bcrypt=require('bcrypt')
 
 const User=require('./models/usermodel')
 const Post=require('./models/postmodel')
+const Comment=require('./models/comentmodel')
 
 const secretkey="shrh3oq9itkarhoquioafnch4p@(H8y)IJ!hdweot3605n"
 
@@ -31,6 +32,16 @@ mongoose.connect(uri,{
     app.listen(5000,()=>console.log("listening to the port 5000..."))
 }).catch(err=>console.log(err))
 
+app.post('/comments',(req,res)=>{
+    const {token,postid}=req.body
+    const decoded=generatetoken(token)
+    if(decoded){
+        Comment.find({postid}).then(rslt=>{
+            res.send(rslt)
+        }).catch(err=>console.log(err))
+    }
+})
+
 app.post('/locations',(req,res)=>{
     const {token,location}=req.body
     const decoded=authenticate(token)
@@ -38,6 +49,24 @@ app.post('/locations',(req,res)=>{
         Post.find({location:location}).then(posts=>{
             res.send(posts)
         }).catch(err=>console.log(err))
+    }
+})
+
+app.put('/like',(req,res)=>{
+    const {token,postid,likes,location}=req.body
+    const decoded=authenticate(token)
+    if(decoded){
+        if(!likes.likedusers.includes(decoded._id)){
+            const updatedlikes={
+                likedusers:[...likes.likedusers,decoded._id],
+                likecnt:likes.likecnt+1
+            }
+            Post.findOneAndUpdate({_id:postid},{likes:updatedlikes}).then(rslt=>{
+                Post.find({location}).then(rsl=>res.send(rsl)).catch(err=>console.log(err))
+            }).catch(err=>console.log(err))
+        }else{
+            console.log('already liked this post!!')
+        }
     }
 })
 

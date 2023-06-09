@@ -9,7 +9,8 @@ import { getpost } from '../services/users'
 
 const Dashboard = () => {
   const navigate=useNavigate()
-  const [searchlocation,setsearchlocation]=useState()
+  const [searchlocation,setsearchlocation]=useState('')
+  const [result,viewresult]=useState(false)
   const [data,setdata]=useState([])
 
   useEffect(()=>{
@@ -27,12 +28,13 @@ const Dashboard = () => {
     e.preventDefault()
     const token=localStorage.getItem('authToken')
     getpost(searchlocation,token).then(posts=>{
+      viewresult(true)
       setdata(posts.data)
   }).catch(err=>console.log(err))
   }
 
   return (
-    <div style={{background:'rgb(70,40,40)'}}>
+    <div className='bganimation'>
         <img style={{width:'100%',height:'100vh'}} src={bg}/>
         <div className='dash-nav'>
           <h1 style={{marginRight:'68vw'}}>TourAround</h1>
@@ -55,7 +57,8 @@ const Dashboard = () => {
                 </p>
             </div>
         </div>
-        <Post data={data}/>
+        {result &&
+        <Post data={data} setdata={setdata}/>}
         <Addpost/>
         <Footer/>
     </div>

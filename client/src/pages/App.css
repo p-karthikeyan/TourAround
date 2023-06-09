@@ -1,6 +1,22 @@
 .wrap{
     align-items: center;
 }
+.bganimation{
+  background: linear-gradient(-45deg,rgb(96, 1, 37),rgb(90, 0, 86),rgb(22, 0, 77));
+  background-size: 400% 400%;
+  animation: gradient 2s ease infinite;
+}
+@keyframes gradient{
+  0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
 
 .home-cont{
   display: flex;

@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import person from '../assets/person.webp';
 import send from '../assets/send.png';
 import '../pages/App.css';
-import { getpost } from '../services/users';
+import { like } from '../services/users';
 
-const Post = ({data}) => {
+const Post = ({data,setdata}) => {
     const [iscmnt,setcmnt]=useState(false)
+    
 
     const handlecmnt=()=>{
         setcmnt(!iscmnt)
     }
+    const handlelike=(postid,likes,location)=>{
+        const token=localStorage.getItem('authToken')
+        const data={token,postid,likes,location}
+        like(data).then(rst=>{
+            setdata(rst.data)
+        })
+        .catch(err=>console.log(err))
+    }
+
     const comments=[
         {username:'kishore',msge:'Nice location!'},
         {username:'prasanna',msge:'That was a wonderful spot!'}
@@ -34,7 +44,7 @@ const Post = ({data}) => {
                                 <p style={{fontFamily:'Brush Script MT',fontSize:'x-large'}}>{post.description}</p>
                                 <img style={{width:'100%'}} src={post.image}/>
                                 <div className='post-foot'>
-                                    <h3>Like</h3>
+                                    <h3 onClick={()=>handlelike(post._id,post.likes,post.location)}>{post.likes.likecnt} Like</h3>
                                     <h3 onClick={handlecmnt}>Comments</h3>
                                     <h3>Share</h3>
                                 </div>
