@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiurl='https://touraround.onrender.com';
+const apiurl='https://touraround.onrender.com/';
 
 export const signupuser=(data)=>{
     return axios.post(apiurl+'signup',data)
