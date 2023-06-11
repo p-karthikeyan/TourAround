@@ -32,7 +32,7 @@ mongoose.connect(uri,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(result=>{
-    app.listen(5000,()=>console.log("listening to the port 5000..."))
+    app.listen(process.env.PORT || 5000,()=>console.log("listening to the port 5000..."))
 }).catch(err=>console.log(err))
 
 app.post('/getcomments',(req,res)=>{
