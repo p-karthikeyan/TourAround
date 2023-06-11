@@ -1,6 +1,9 @@
 const express=require('express')
 const cors=require('cors')
 const jwt=require('jsonwebtoken')
+require('dotenv').config();
+
+
 const app=express()
 
 app.use(express.urlencoded({extended:true}))
@@ -8,7 +11,7 @@ app.use(express.json())
 app.use(cors())
 
 const mongoose=require('mongoose')
-const uri="mongodb+srv://karthik-2002:karthik2002@cluster.8oxgmsm.mongodb.net/TourAround?retryWrites=true&w=majority"
+const uri=process.env.DATABASE_URI
 
 const bcrypt=require('bcrypt')
 
@@ -16,7 +19,7 @@ const User=require('./models/usermodel')
 const Post=require('./models/postmodel')
 const Comment=require('./models/comentmodel')
 
-const secretkey="shrh3oq9itkarhoquioafnch4p@(H8y)IJ!hdweot3605n"
+const secretkey=process.env.SECRET_KEY
 
 const generatetoken=(userid)=>{
     return jwt.sign({_id:userid},secretkey)
@@ -32,12 +35,27 @@ mongoose.connect(uri,{
     app.listen(5000,()=>console.log("listening to the port 5000..."))
 }).catch(err=>console.log(err))
 
-app.post('/comments',(req,res)=>{
+app.post('/getcomments',(req,res)=>{
     const {token,postid}=req.body
-    const decoded=generatetoken(token)
+    const decoded=authenticate(token)
     if(decoded){
         Comment.find({postid}).then(rslt=>{
             res.send(rslt)
+        }).catch(err=>console.log(err))
+    }
+})
+
+app.post('/addcomments',(req,res)=>{
+    const {token,postid,message}=req.body
+    const decoded=authenticate(token)
+    if(decoded){
+        User.findOne({_id:decoded._id}).then(userdata=>{
+            const newcmnt=new Comment({postid:postid,user:userdata.username,message:message})
+            newcmnt.save().then(rslt=>{
+                Comment.find({postid}).then(rsl=>{
+                    res.send(rsl)
+                }).catch(err=>console.log(err))
+            }).catch(err=>console.log(err))
         }).catch(err=>console.log(err))
     }
 })

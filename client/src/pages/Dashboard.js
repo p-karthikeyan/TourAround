@@ -13,6 +13,9 @@ const Dashboard = () => {
   const [result,viewresult]=useState(false)
   const [data,setdata]=useState([])
 
+  const len=data.length
+  const [iscmnt,setcmnt]=useState(Array(len).fill(false))
+
   useEffect(()=>{
     const token=localStorage.getItem('authToken')
     const decodedtoken=decodeToken(token)
@@ -25,7 +28,6 @@ const Dashboard = () => {
   },[])
 
   const handlesearch=(e)=>{
-    e.preventDefault()
     const token=localStorage.getItem('authToken')
     getpost(searchlocation,token).then(posts=>{
       viewresult(true)
@@ -58,7 +60,7 @@ const Dashboard = () => {
             </div>
         </div>
         {result &&
-        <Post data={data} setdata={setdata}/>}
+        <Post data={data} setdata={setdata} iscmnt={iscmnt} searchagain={handlesearch} setcmnt={setcmnt}/>}
         <Addpost/>
         <Footer/>
     </div>

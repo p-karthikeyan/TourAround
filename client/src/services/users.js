@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiurl='http://localhost:5000/';
+const apiurl='https://touraround.onrender.com';
 
 export const signupuser=(data)=>{
     return axios.post(apiurl+'signup',data)
@@ -16,4 +16,10 @@ export const getpost=(location,token)=>{
 }
 export const like=(data)=>{
     return axios.put(apiurl+'like',data)
+}
+export const getcomment=(data)=>{
+    return axios.post(apiurl+'getcomments',data)
+}
+export const addcomment=(data)=>{
+    return axios.post(apiurl+'addcomments',data)
 }
