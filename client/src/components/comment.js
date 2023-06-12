@@ -34,6 +34,7 @@ const Comments = ({postid}) => {
 
   return (
     <div>
+        <hr/>
         {cmnts}
         <div className='cmnt-send-cont'>
             <input type='text' onChange={(e)=>setmsge(e.target.value)} placeholder='Type a comment..' value={msge}/>

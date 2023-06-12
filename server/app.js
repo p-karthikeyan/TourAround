@@ -28,11 +28,12 @@ const authenticate=(token)=>{
     return jwt.verify(token,secretkey)
 }
 
+const port=process.env.PORT
 mongoose.connect(uri,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(result=>{
-    app.listen(process.env.PORT || 5000,()=>console.log("listening to the port 5000..."))
+    app.listen(port || 5000,()=>console.log(`listening to the port ${port}...`))
 }).catch(err=>console.log(err))
 
 app.post('/getcomments',(req,res)=>{

@@ -4,10 +4,11 @@ const Footer = () => {
   return (
     <div style={{
     marginBottom:'0px',
-    padding:'80px',
+    padding:'80px 0px',
     background:'rgb(40,40,40)',
     color:'white',
     textAlign:'center',
+    width:'100%'
     }}>
       <p>Home</p>
       <p>Login/Signup</p>

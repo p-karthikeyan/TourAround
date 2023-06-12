@@ -25,7 +25,7 @@ const Intro = ({setmodel}) => {
             }
           }}>Explore &gt;</button>
         </div>
-        <img src={bg}/>
+        <img className='home-img' src={bg}/>
       </div>
   )
 }

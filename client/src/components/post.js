@@ -30,7 +30,7 @@ const Post = ({data,setdata,iscmnt,setcmnt,searchagain}) => {
                 })
   return (
     <div>
-      <h1 style={{color:'white',margin:'50px 0px',textAlign:'center'}}>Results for your Search 'location'</h1>
+      <h2 style={{color:'white',margin:'50px 0px',textAlign:'center'}}>Results for your Search</h2>
       {Posts}
     </div>
   )
